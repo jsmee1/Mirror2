@@ -9,15 +9,15 @@ import java.util.Map;
  */
 public class AnalyticsCounter {
 	/**
-	 *
-	 * @param  args - default unused parameter
+	 * Read symptoms from file, count and sort symptoms alphabetically, and write results to file
+	 * @param symptomFilename
+	 * @param resultFilename
 	 */
-	public static void main(String[] args) {
-
+	public static void analyticsCount(String symptomFilename, String resultFilename) {
 		List<String> symptomList;
 		Map<String, Integer> symptomMap;
 		// Read symptoms into a list, clean data and convert to lowercase
-		SymptomReader reader = new SymptomReader("symptoms.txt");
+		ISymptomReader reader = new SymptomReader(symptomFilename);
 		symptomList = reader.getSymptoms();
 		if (symptomList.isEmpty())
 			System.out.println("No symptoms found");
@@ -25,9 +25,17 @@ public class AnalyticsCounter {
 			// Count symptoms, sort them alphabetically and write to file
 			symptomMap = SymptomUtils.countSymptoms(symptomList);
 			symptomMap = SymptomUtils.sortSymptoms(symptomMap);
-			SymptomWriter writer = new SymptomWriter("result.out");
+			ISymptomWriter writer = new SymptomWriter(resultFilename);
 			writer.putSymptoms(symptomMap);
 		}
 
+	}
+	/**
+	 *
+	 * @param  args - default unused parameter
+	 */
+	public static void main(String[] args) {
+
+		analyticsCount("symptoms.txt", "result.out");
 	}
 }
